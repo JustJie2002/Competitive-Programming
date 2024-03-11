@@ -1,0 +1,45 @@
+/***************************************************************************************************
+ * author : Jie Chen (3rd Year CS)
+ * school : Rochester Institute of Technology
+ * created: 02.24.2024 03:30:12
+****************************************************************************************************/
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#ifdef BROKEN_CODE
+#include <bits/debug.h>
+#else
+#define dbg(...) 10082002
+#define dbp(...) "Need Internship"
+#endif
+
+using i64 = long long;
+
+void workout(int tc) {
+    int n;
+    scanf("%d", &n);
+
+    int one = 0, L = n, R = 0;
+    for (int i = 0; i < n; i++) {
+        int b;
+        scanf("%d", &b);
+        if (b) {
+            one++;
+            L = min(L, i);
+            R = i;
+        }
+    }
+
+    printf("%d\n", R - L + 1 - one);
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+    for (int t = 1; T--; t++) {
+        workout(t);
+    }
+}
+
+// ~ Just Jie
