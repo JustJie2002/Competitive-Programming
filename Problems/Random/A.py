@@ -1,51 +1,27 @@
-def Solve(mat):
-    k = len(mat)
-    
-    dp = [0] * k
-    
-    current = 0
-    
-    # maximum of left ro right on top row
-    for j in range(k):
-        if j + 1 < k:
-            dp[j] = max(dp[j], current + mat[0][j+1])
-        else:
-            dp[j] = max(dp[j], current)
-        
-        if 0 <= j - 1:
-            current = max(mat[0][j-1], current)
-    
-    current = 0
-    
-    # maximum of right to left on top row
-    for j in reversed(range(k)):
-        if 0 <= j - 1:
-            dp[j] = max(dp[j], current + mat[0][j-1])
-        else:
-            dp[j] = max(dp[j], current)
-        
-        if j + 1 < k:
-            current = max(mat[0][j+1], current)
-    
-    # calculate the drop for each row.
-    for i in range(1, k):
-        for j in range(k):
-            if 0 <= j - 1 and j + 1 < k:
-                dp[j] = mat[i][j-1] + dp[j] + mat[i][j+1]
-            elif 0 <= j - 1:
-                dp[j] = mat[i][j-1] + dp[j]
-            elif j + 1 < k:
-                dp[j] = dp[j] + mat[i][j+1]
-            else:
-                dp[j] = dp[j]
-    
-    return max(dp)
+from collections import deque
 
-mat = [
-    [1, 0, 0, 1],
-    [1, 0, 0, 1],
-    [1, 0, 0, 1],
-    [1, 1, 1, 1],
-]
+def work(pins, screen_length):
+    pins.sort(key = lambda x : x[1])
 
-print(Solve(mat))
+    def decide(side: str):
+        return 0 if side == 'L' else 1
+
+    groups = [deque() for _ in range(2)]
+    ans = 0
+    for top, bot, side in pins:
+        if bot - top + 1 > screen_length:
+            continue
+        groups[decide(side)].append((top, bot))
+
+        max_top = bot - screen_length + 1
+        for i in range(2):
+            while groups[i] and groups[i][0][0] < max_top:
+                groups[i].popleft()
+        
+        ans = max(ans, len(groups[0]) + len(groups[1]))
+    
+    return ans
+
+pins = [(1,4,"L"),(2,3,"R"),(4,8,"R"),(6,9,"L")]
+screen_length = 5
+print(work(pins, screen_length))
