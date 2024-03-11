@@ -1,32 +1,21 @@
 
+// Credit: Maksim1744
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-#define rand    rng
+#define rand rng
+i64 random(i64 R) { return rand() % R; }
+i64 random(i64 L, i64 R) { return L + random(R - L + 1); }
 
-i64 random(i64 r) {
-    return rand() % r;
-}
-i64 random(i64 l, i64 r) {
-    return l + random(r - l + 1);
-}
-
-pair<int, int> gen_different_pair(int l, int r) {
+pair<int, int> gen_pair(int L, int R, booL same = true) {
     int u, v;
-    do {
-        u = random(l, r);
-        v = random(l, r);
-    } while (u == v);
-    return make_pair(u, v);
-}
 
-pair<int, int> gen_pair(int l, int r, bool same = true) {
-    int u, v;
     do {
-        u = random(l, r);
-        v = random(l, r);
+        u = random(L, R);
+        v = random(L, R);
         if (u > v) {
             swap(u, v);
         }
     } while (u == v && !same);
+
     return make_pair(u, v);
 }
 
@@ -76,12 +65,14 @@ struct DSU {
     }
 };
 
-vector<pair<int, int>> gen_tree(int n) {
+using Edge = pair<int, int>;
+
+vector<Edge> gen_tree(int n) {
     DSU uf(n);
     
-    vector<pair<int, int>> edges;
+    vector<Edge> edges;
     while (uf.components != 1) {
-        auto [u, v] = gen_different_pair(0, n - 1);
+        auto [u, v] = gen_pair(0, n - 1, false);
         if (uf.merge(u, v)) {
             edges.emplace_back(u, v);
         }
@@ -90,14 +81,16 @@ vector<pair<int, int>> gen_tree(int n) {
     return edges;
 }
 
-vector<pair<int, int>> gen_graph(int n, int m, bool connected = false) {
-    set<pair<int, int>> has;
-    vector<pair<int, int>> edges;
+vector<Edge> gen_graph(int n, int m, bool connected = false) {
+    set<Edge> has;
+    vector<Edge> edges;
 
     if (connected) {
         edges = gen_tree(n);
-        for (auto &[u, v] : edges) if (u > v) {
-            swap(u, v);
+        for (auto &[u, v] : edges) {
+            if (u > v) {
+                swap(u, v);
+            }
         }
         has.insert(edges.begin(), edges.end());
     }
@@ -112,19 +105,21 @@ vector<pair<int, int>> gen_graph(int n, int m, bool connected = false) {
 
     shuffle(edges.begin(), edges.end(), rand);
 
-    for (auto &[u, v] : edges) if (random(2)) {
-        swap(u, v);
+    for (auto &[u, v] : edges) {
+        if (random(2)) {
+            swap(u, v);
+        }
     }
 
     return edges;
 }
 
-
-template <typename T> vector<T> gen_array(int n, T l, T r) {
+template <typename T>
+vector<T> gen_array(int n, T L, T R) {
     vector<T> a(n);
 
     for (int i = 0; i < n; i++) {
-        a[i] = random(l, r);
+        a[i] = random(L, R);
     }
 
     return a;

@@ -1,4 +1,5 @@
 
+// Credit: Neal Wu
 struct SCC {
     int V = 0;
     vector<vector<int>> adj;

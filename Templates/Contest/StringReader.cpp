@@ -1,4 +1,10 @@
 
+/*
+Functionality:
+- nxt(): reads the next string
+- cxt(): reads the next character
+- lxt(): reads the whole line
+*/
 constexpr int BUFSIZE = 2e6 + 1;
 char buf[BUFSIZE];
 class Reader {
@@ -10,7 +16,7 @@ class Reader {
         scanf("%s", buf);
         return buf[0];
     }
-    string lst() {
+    string lxt() {
         char c;
         string sb;
         while (c = getchar()) {

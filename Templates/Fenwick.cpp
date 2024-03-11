@@ -1,5 +1,7 @@
 
-template <typename T> struct Fenwick {
+// Credit: Jiangly
+template <typename T>
+struct Fenwick {
     int n;
     vector<T> a;
     

@@ -1,4 +1,5 @@
 
+// Credit: Jiangly
 template<class T>
 struct Frac {
     T num;

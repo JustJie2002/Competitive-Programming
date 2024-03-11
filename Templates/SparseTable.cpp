@@ -1,5 +1,5 @@
 
-// credit: tourist
+// Credit: tourist
 template <typename T, class F = function<T(const T&, const T&)>> struct SparseTable {
     int n;
     vector<vector<T>> st;

@@ -1,5 +1,6 @@
 
 using Pair = pair<int, int>;
+
 struct UndoDSU {
     vector<int> par;
     stack<Pair, vector<Pair>> stk;

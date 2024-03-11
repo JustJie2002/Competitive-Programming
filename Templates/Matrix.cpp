@@ -1,5 +1,6 @@
 
-template <typename T> struct Matrix {
+template <typename T>
+struct Matrix {
     int n;
     vector<vector<T>> mat;
     Matrix(int _n): n(_n), mat(n, vector<T>(n)) {}
@@ -58,7 +59,7 @@ template <typename T> struct Matrix {
         return res;
     }
 
-    void debug() {
+    void out() {
         cout << "DEBUGGING:\n";
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

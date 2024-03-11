@@ -1,26 +1,27 @@
 
+// Credit: Jiangly
 template<class Info, class Tag>
 struct LazySegmentTree {
     int n;
-    std::vector<Info> info;
-    std::vector<Tag> tag;
+    vector<Info> info;
+    vector<Tag> tag;
     LazySegmentTree() : n(0) {}
     LazySegmentTree(int n_, Info v_ = Info()) {
         init(n_, v_);
     }
     template<class T>
-    LazySegmentTree(std::vector<T> init_) {
+    LazySegmentTree(vector<T> init_) {
         init(init_);
     }
     void init(int n_, Info v_ = Info()) {
-        init(std::vector(n_, v_));
+        init(vector(n_, v_));
     }
     template<class T>
-    void init(std::vector<T> init_) {
+    void init(vector<T> init_) {
         n = init_.size();
-        info.assign(4 << std::__lg(n), Info());
-        tag.assign(4 << std::__lg(n), Tag());
-        std::function<void(int, int, int)> build = [&](int p, int l, int r) {
+        info.assign(4 << __lg(n), Info());
+        tag.assign(4 << __lg(n), Tag());
+        function<void(int, int, int)> build = [&](int p, int l, int r) {
             if (r - l == 1) {
                 info[p] = init_[l];
                 return;
@@ -61,7 +62,7 @@ struct LazySegmentTree {
     void modify(int p, const Info &v) {
         modify(1, 0, n, p, v);
     }
-    Info rangeQuery(int p, int l, int r, int x, int y) {
+    Info range_query(int p, int l, int r, int x, int y) {
         if (l >= y || r <= x) {
             return Info();
         }
@@ -70,12 +71,12 @@ struct LazySegmentTree {
         }
         int m = (l + r) / 2;
         push(p);
-        return rangeQuery(2 * p, l, m, x, y) + rangeQuery(2 * p + 1, m, r, x, y);
+        return range_query(2 * p, l, m, x, y) + range_query(2 * p + 1, m, r, x, y);
     }
-    Info rangeQuery(int l, int r) {
-        return rangeQuery(1, 0, n, l, r);
+    Info range_query(int l, int r) {
+        return range_query(1, 0, n, l, r);
     }
-    void rangeApply(int p, int l, int r, int x, int y, const Tag &v) {
+    void range_apply(int p, int l, int r, int x, int y, const Tag &v) {
         if (l >= y || r <= x) {
             return;
         }
@@ -85,15 +86,15 @@ struct LazySegmentTree {
         }
         int m = (l + r) / 2;
         push(p);
-        rangeApply(2 * p, l, m, x, y, v);
-        rangeApply(2 * p + 1, m, r, x, y, v);
+        range_apply(2 * p, l, m, x, y, v);
+        range_apply(2 * p + 1, m, r, x, y, v);
         pull(p);
     }
-    void rangeApply(int l, int r, const Tag &v) {
-        return rangeApply(1, 0, n, l, r, v);
+    void range_apply(int l, int r, const Tag &v) {
+        return range_apply(1, 0, n, l, r, v);
     }
     template<class F>
-    int findFirst(int p, int l, int r, int x, int y, F pred) {
+    int find_first(int p, int l, int r, int x, int y, F pred) {
         if (l >= y || r <= x || !pred(info[p])) {
             return -1;
         }
@@ -102,18 +103,18 @@ struct LazySegmentTree {
         }
         int m = (l + r) / 2;
         push(p);
-        int res = findFirst(2 * p, l, m, x, y, pred);
+        int res = find_first(2 * p, l, m, x, y, pred);
         if (res == -1) {
-            res = findFirst(2 * p + 1, m, r, x, y, pred);
+            res = find_first(2 * p + 1, m, r, x, y, pred);
         }
         return res;
     }
     template<class F>
-    int findFirst(int l, int r, F pred) {
-        return findFirst(1, 0, n, l, r, pred);
+    int find_first(int l, int r, F pred) {
+        return find_first(1, 0, n, l, r, pred);
     }
     template<class F>
-    int findLast(int p, int l, int r, int x, int y, F pred) {
+    int find_last(int p, int l, int r, int x, int y, F pred) {
         if (l >= y || r <= x || !pred(info[p])) {
             return -1;
         }
@@ -122,15 +123,15 @@ struct LazySegmentTree {
         }
         int m = (l + r) / 2;
         push(p);
-        int res = findLast(2 * p + 1, m, r, x, y, pred);
+        int res = find_last(2 * p + 1, m, r, x, y, pred);
         if (res == -1) {
-            res = findLast(2 * p, l, m, x, y, pred);
+            res = find_last(2 * p, l, m, x, y, pred);
         }
         return res;
     }
     template<class F>
-    int findLast(int l, int r, F pred) {
-        return findLast(1, 0, n, l, r, pred);
+    int find_last(int l, int r, F pred) {
+        return find_last(1, 0, n, l, r, pred);
     }
 };
 

@@ -1,4 +1,5 @@
 
+// Credit: Neal Wu
 i64 inv_mod(i64 a, i64 m) {
     // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm#Example
     i64 g = m, r = a, x = 0, y = 1;
