@@ -7,16 +7,16 @@ Functionality:
 */
 constexpr int BUFSIZE = 2e6 + 1;
 char buf[BUFSIZE];
-class Reader {
-    string nxt() {
+struct Reader {
+    static string nxt() {
         scanf("%s", buf);
         return buf;
     }
-    char cxt() {
+    static char cxt() {
         scanf("%s", buf);
         return buf[0];
     }
-    string lxt() {
+    static string lxt() {
         char c;
         string sb;
         while (c = getchar()) {

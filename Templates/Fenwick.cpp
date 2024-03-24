@@ -14,12 +14,14 @@ struct Fenwick {
         a.assign(n, T());
     }
     
+    // x is 0-index
     void add(int x, T v) {
         for (int i = x + 1; i <= n; i += i & -i) {
             a[i - 1] += v;
         }
     }
     
+    // sum from a[0:x]
     T sum(int x) {
         auto ans = T();
         for (int i = x; i > 0; i -= i & -i) {
@@ -28,10 +30,12 @@ struct Fenwick {
         return ans;
     }
     
+    // sum from a[l:r+1]
     T rangeSum(int l, int r) {
-        return sum(r) - sum(l);
+        return sum(r + 1) - sum(l);
     }
     
+    // kth largest sum
     int kth(T k) {
         int x = 0;
         for (int i = 1 << std::__lg(n); i; i /= 2) {

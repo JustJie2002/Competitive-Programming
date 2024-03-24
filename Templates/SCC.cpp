@@ -81,8 +81,10 @@ struct SCC {
         // Note that Tarjan's algorithm provides the SCCs in reverse topological order.
         components = {};
 
-        for (int i = 0; i < V; i++)
-            if (tour_index[i] < 0)
+        for (int i = 0; i < V; i++) {
+            if (tour_index[i] < 0) {
                 dfs(i);
+            }
+        }
     }
 };

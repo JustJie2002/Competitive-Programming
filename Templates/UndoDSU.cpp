@@ -3,14 +3,10 @@ using Pair = pair<int, int>;
 
 struct UndoDSU {
     vector<int> par;
-    stack<Pair, vector<Pair>> stk;
+    stack<Pair, vector<Pair>> ops;
 
     UndoDSU() {}
-    UndoDSU(int n) { init(n); }
-
-    void init(int n) {
-        par.resize(n, -1);
-    }
+    UndoDSU(int n): par(n, -1) {}
 
     int find(int x) {
         return par[x] < 0 ? x : find(par[x]);
@@ -26,8 +22,8 @@ struct UndoDSU {
         if (par[x] > par[y]) {
             swap(x, y);
         }
-        stk.emplace(x, par[x]);
-        stk.emplace(y, par[y]);
+        ops.emplace(x, par[x]);
+        ops.emplace(y, par[y]);
         par[x] += par[y];
         par[y] = x;
         return true;
@@ -38,10 +34,10 @@ struct UndoDSU {
     }
 
     void undo() {
-        assert(!stk.empty());
+        assert(!ops.empty());
         for (int _ = 0; _ < 2; _++) {
-            auto [cur, fa] = stk.top();
-            stk.pop();
+            auto [cur, fa] = ops.top();
+            ops.pop();
             par[cur] = fa;
         }
     }

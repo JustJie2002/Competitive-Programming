@@ -35,7 +35,8 @@ i64 chinese_remainder_theorem(i64 a1, i64 m1, i64 a2, i64 m2) {
     return result;
 }
 
-template<typename T> i64 chinese_remainder_theorem(const vector<T> &a, const vector<T> &m) {
+template <typename T>
+i64 chinese_remainder_theorem(const vector<T>& a, const vector<T>& m) {
     assert(a.size() == m.size());
     i64 result = a.front();
     i64 mod = m.front();

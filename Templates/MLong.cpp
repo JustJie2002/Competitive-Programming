@@ -113,3 +113,9 @@ template<i64 P> struct MLong {
  
 template<>
 i64 MLong<0LL>::Mod = i64(1e18) + 9;
+
+template<i64 V, i64 P>
+constexpr MLong<P> CInv = MLong<P>(V).inv();
+ 
+constexpr i64 P = 0;
+using Z = MLong<P>;

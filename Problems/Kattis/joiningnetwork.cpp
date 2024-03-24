@@ -100,10 +100,6 @@ int main() {
         return centroid[0];
     };
 
-    // auto solve = [&](int root, const auto& adj) -> i64 {
-    //     // 
-    // };
-
     auto a = find_centroid(adj1);
     auto b = find_centroid(adj2);
 
