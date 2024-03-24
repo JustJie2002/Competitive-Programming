@@ -1,5 +1,5 @@
 
-template <int SIZE>
+template <int SIZE = 26, char MIN_CHAR = 'a'>
 struct Trie {
     struct Info {
         Info* nex[SIZE];
@@ -21,7 +21,7 @@ struct Trie {
 
     Info* root = NULL;
     Trie() { root = new Info(); }
-    constexpr int ord(char c) { return c - 'a'; }
+    constexpr int ord(char c) { return c - MIN_CHAR; }
 
     void add(const string& word) {
         Info* ptr = root;

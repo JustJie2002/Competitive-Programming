@@ -19,6 +19,7 @@ struct custom_hash {
 template <typename K, typename V, typename Hash = custom_hash>
 using HashMap = __gnu_pbds::gp_hash_table<K, V, Hash>;
 
+template <char MIN_CHAR = 'a'>
 struct CompressedTrie {
     struct Info {
         HashMap<int, Info*> nex;
@@ -39,7 +40,7 @@ struct CompressedTrie {
 
     Info* root = NULL;
     Trie() { root = new Info(); }
-    constexpr int ord(char c) { return c - 'a'; }
+    constexpr int ord(char c) { return c - MIN_CHAR; }
 
     void add(const string& word) {
         Info* ptr = root;
