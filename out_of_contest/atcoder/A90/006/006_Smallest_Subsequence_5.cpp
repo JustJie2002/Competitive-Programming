@@ -195,7 +195,7 @@ int main() {
             [&](const Info& info) {
                 return info.o <= o;
             });
-        assert(id < n);
+        assert(id != -1);
         indices.push_back(id);
         seg.modify(id, Info(inf));
         stk.push(id);
