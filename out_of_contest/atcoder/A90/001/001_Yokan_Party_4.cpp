@@ -28,24 +28,27 @@ int main() {
     for (int i = 0; i < n; i++) {
         scanf("%d", &a[i]);
     }
+    a.push_back(l);
 
     auto good = [&](int cutoff) -> int {
         int p = 0;
         int cuts = 0;
+        int res = 0;
         for (int x : a) {
-            if (x - p >= cutoff) {
-                p = x;
+            res += x - p;
+            if (res >= cutoff) {
                 cuts++;
+                res = 0;
             }
+            p = x;
         }
-        if (cuts < k) {
-            return false;
+        if (res < cutoff) {
+            cuts--;
         }
-        if (l - p < cutoff) {
-            return cuts != k;
-        }
-        return true;
+        return cuts >= k;
     };
+
+    auto b = std::binary_search()
 
     int lo = 1, hi = inf, mid;
     while (lo < hi) {

@@ -6,4 +6,4 @@ You want to choose K cuts out of the N cuts and divide the Yokan into K + 1 piec
 # Constraints
 - $1 \le K \le N \le 100,000$
 - $0 < A_1 < A_2 < ... < A_N < L \le 10^9$
-- All inputs are integers
+- All inputs given are integers
