@@ -1,4 +1,4 @@
-# Statement
+# [Restricted Digits (7 stars)](https://atcoder.jp/contests/typical90/tasks/typical90_e)
 How many N-digit positive integers that can be constructed by using only the digits $c_1, c_2,...,c_K$ that are multiples of B? Since the answer can be really big, take the mod of $10^9 + 7$.
 
 # Constraints

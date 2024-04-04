@@ -1,4 +1,4 @@
-# Statement
+# [Encyclopedia of Parentheses (3 stars)](https://atcoder.jp/contests/typical90/tasks/typical90_b)
 Output all correct parentheses sequences of N, in lexicographic order.
 
 However, the correct sequence of parentheses is defined as follows:
