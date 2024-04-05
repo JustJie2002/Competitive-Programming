@@ -1,6 +1,6 @@
 # [Smallest Subsequence (5 stars)](https://atcoder.jp/contests/typical90/tasks/typical90_f)
-A character S of length N, consisting of only English lowercase letters, is given. \
-Output the smallest subsequence of S of length K that is in lexicographic order.
+A string S of length N, consisting of only English lowercase letters, is given. \
+Output the lexicographically smallest subsequence of length K from S.
 
 Clarification: A subsequence of a string T is a string obtained by removing zero or more characters from T and concatenating the remaining characters in their original order.
 
