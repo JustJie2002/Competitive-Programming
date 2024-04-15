@@ -30,7 +30,7 @@ struct Fenwick {
         return ans;
     }
     
-    // sum from a[l:r+1]
+    // sum from a[l:r]
     T rangeSum(int l, int r) {
         return sum(r + 1) - sum(l);
     }

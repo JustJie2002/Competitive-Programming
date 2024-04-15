@@ -60,4 +60,21 @@ struct PrimeTable {
         }
         return factors;
     }
-} pt(MAX_SIEVE);
+
+    vector<int> get_factors(int x) {
+        vector<int> a, b;
+        for (int i = 1; i * i <= x; i++) {
+            if (x % i == 0) {
+                a.push_back(i);
+                if (i * i != x) {
+                    b.push_back(x / i);
+                }
+            }
+        }
+        reverse(b.begin(), b.end());
+        for (int x : b) {
+            a.push_back(x);
+        }
+        return a;
+    }
+} primes(MAX_SIEVE);

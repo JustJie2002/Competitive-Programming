@@ -1,6 +1,6 @@
 
 // Reminder: Add SCC template
-// Credit: Neal Wu
+// Credit: neal wu
 struct two_sat {
     int n = 0;
     vector<vector<int>> adj;

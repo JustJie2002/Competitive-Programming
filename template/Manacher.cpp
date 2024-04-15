@@ -1,26 +1,55 @@
 
-/*
-r[2 * i] - 1: longest odd-length palidrome centered at i
-r[2 * i + 1] - 1: longest even-length palidrome centered at i
-*/
-vector<int> manacher(const string& s) {
-    string t = "#";
-    for (auto c : s) {
-        t += c;
-        t += '#';
+struct Manacher {
+    string word;
+    vector<int> man;
+    int pal_count;
+
+    Manacher() {
+        word += '#';
     }
-    int n = t.size();
-    vector<int> r(n);
-    for (int i = 0, j = 0; i < n; i++) {
-        if (2 * j - i >= 0 && j + r[j] > i) {
-            r[i] = min(r[2 * j - i], j + r[j] - i);
-        }
-        while (i - r[i] >= 0 && i + r[i] < n && t[i - r[i]] == t[i + r[i]]) {
-            r[i] += 1;
-        }
-        if (i + r[i] > j + r[j]) {
-            j = i;
+
+    void add(const string& s) {
+        for (char c : s) {
+            word += c;
+            word += '#';
         }
     }
-    return r;
-}
+
+    char _get(int pos) {
+        return word[pos];
+    }
+
+    void work() {
+        int n = word.length();
+        man.resize(n);
+        pal_count = 0;
+        for (int i = 0, j = 0; i < n; i++) {
+            if (2 * j - i >= 0 && j + man[j] > i) {
+                man[i] = min(man[2 * j - i], j + man[j] - i);
+            }
+            while (i - man[i] >= 0 && i + man[i] < n && _get(i - man[i]) == _get(i + man[i])) {
+                man[i] += 1;
+            }
+            if (i + man[i] > j + man[j]) {
+                j = i;
+            }
+            pal_count += man[i] / 2;
+        }
+    }
+
+    int count_pal() {
+        return pal_count;
+    }
+
+    int get(int mid, bool odd) {
+        return man[2 * mid + !odd + 1] - 1;
+    }
+
+    bool is_pal(int l, int r) {
+        int sz = r - l + 1;
+        int mid = (l + r) / 2;
+        int len = get(mid, sz & 1);
+        return sz <= len;
+    }
+};
+

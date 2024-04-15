@@ -113,10 +113,10 @@ struct MInt {
 };
  
 template<>
-int MInt<0>::Mod = 998244353;
+int MInt<0>::Mod = 998'244'353;
  
 template<int V, int P>
 constexpr MInt<P> CInv = MInt<P>(V).inv();
  
-constexpr int P = 1'000'000'007; // 998244353;
+constexpr int P = 1'000'000'007; // 998'244'353;
 using Z = MInt<P>;

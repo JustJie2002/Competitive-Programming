@@ -1,5 +1,5 @@
 
-template <typename T>
+template<typename T>
 struct Matrix {
     int n;
     vector<vector<T>> mat;

@@ -1,0 +1,1 @@
+{"name":"Local: b","url":"/home/justjie/Desktop/Programming/CP/out_of_contest/random/b.cpp","tests":[{"id":1713219021288,"input":"5  3\n10 2 8 7 6\n2 1 4\n1 1 4\n2 1 4","output":"27\n11"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/justjie/Desktop/Programming/CP/out_of_contest/random/b.cpp","group":"local","local":true}
