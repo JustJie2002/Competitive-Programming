@@ -1,14 +1,23 @@
-from math import *
+import heapq
 
-vs = [89,59,43,13,173,47,103]
-a = 3
-q = 11
-qrem = q % (4 * a)
+n, m = map(int, input().split())
+price = [*map(int, input().split())]
+req = [*map(int, input().split())]
+dis = [*map(int, input().split())]
 
-ans = []
-for p in vs:
-    prem = p % (4 * a)
-    if gcd(p, a) != 1:
-        continue
-    print(qrem, prem, p)
-    # if qrem == prem or q
+tot = 0
+price.sort(reverse = True)
+
+heap = [(-r, -q) for r, q in zip(req, dis)]
+heapq.heapify(heap)
+
+for p in price:
+    while heap and -heap[0][0] > p:
+        heapq.heappop(heap)
+    if heap:
+        r, q = heapq.heappop(heap)
+        print(r, q)
+        tot += p + q
+    else:
+        tot += p
+print(tot)

@@ -9,7 +9,7 @@ struct custom_hash {
         x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
         return x ^ (x >> 31);
     }
- 
+
     size_t operator()(uint64_t x) const {
         static const uint64_t FIXED_RANDOM = std::chrono::steady_clock::now().time_since_epoch().count();
         return splitmix64(x + FIXED_RANDOM);
@@ -17,7 +17,7 @@ struct custom_hash {
 };
  
 template <typename K, typename V, typename Hash = custom_hash>
-using HashMap = __gnu_pbds::gp_hash_table<K, V, Hash>;
+using umap = __gnu_pbds::gp_hash_table<K, V, Hash>;
  
 template <typename K, typename Hash = custom_hash>
-using HashSet = HashMap<K, __gnu_pbds::null_type, Hash>;
+using uset = umap<K, __gnu_pbds::null_type, Hash>;

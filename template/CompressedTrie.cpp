@@ -20,7 +20,7 @@ template<typename K, typename V, typename Hash = custom_hash>
 using HashMap = __gnu_pbds::gp_hash_table<K, V, Hash>;
 
 template<char MIN_CHAR = 'a'>
-struct CompressedTrie {
+struct Trie {
     struct Info {
         HashMap<int, Info*> nex;
         // TODO: attributes

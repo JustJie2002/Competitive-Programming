@@ -68,7 +68,7 @@ struct SCC {
         }
     }
 
-    void build() {
+    void make() {
         tour_index.assign(V, -1);
         low_link.resize(V);
         which_component.assign(V, -1);
