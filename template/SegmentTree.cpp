@@ -1,8 +1,22 @@
 
+// Credit: Jiangly
 template <class Info>
-struct SegmentTree {
+class SegmentTree {
+private:
     int n;
     vector<Info> info;
+    vector<int> pos;
+    struct Proxy {
+        SegmentTree<Info>& seg;
+        int index;
+        Proxy(SegmentTree<Info>& seg, int index) : seg(seg), index(index) {}
+        Proxy& operator=(const Info& info) {
+            seg.modify(index, info);
+            return *this;
+        }
+    };
+
+public:
     SegmentTree() : n(0) {}
     SegmentTree(int n_, Info v_ = Info()) {
         init(n_, v_);
@@ -17,10 +31,12 @@ struct SegmentTree {
     template<class T>
     void init(vector<T> init_) {
         n = init_.size();
+        pos.resize(n);
         info.assign(4 << __lg(n), Info());
         function<void(int, int, int)> build = [&](int p, int l, int r) {
             if (r - l == 1) {
                 info[p] = init_[l];
+                pos[l] = p;
                 return;
             }
             int m = (l + r) / 2;
@@ -49,18 +65,32 @@ struct SegmentTree {
     void modify(int p, const Info &v) {
         modify(1, 0, n, p, v);
     }
+    const Info& operator[](int p) const {
+        return range_query(p, p + 1);
+    }
+    Proxy operator[](int p) {
+        return Proxy(*this, p);
+    }
     Info range_query(int p, int l, int r, int x, int y) {
-        if (l >= y || r <= x) {
-            return Info();
-        }
         if (l >= x && r <= y) {
             return info[p];
         }
         int m = (l + r) / 2;
-        return range_query(2 * p, l, m, x, y) + range_query(2 * p + 1, m, r, x, y);
+        if (y <= m) {
+            return range_query(2 * p, l, m, x, y);
+        } else if (x >= m) {
+            return range_query(2 * p + 1, m, r, x, y);
+        }
+        return range_query(2 * p, l, m, x, m) + range_query(2 * p + 1, m, r, m, y);
     }
     Info range_query(int l, int r) {
         return range_query(1, 0, n, l, r);
+    }
+    Info get(int i) {
+        return info[pos[i]];
+    }
+    Info prod() {
+        return info[1];
     }
     template<class F>
     int find_first(int p, int l, int r, int x, int y, F pred) {
@@ -101,7 +131,7 @@ struct SegmentTree {
         return find_last(1, 0, n, l, r, pred);
     }
 };
- 
+
 struct Info {
     // TODO
 };

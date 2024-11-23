@@ -5,7 +5,7 @@ mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 i64 random(i64 R) { return rand() % R; }
 i64 random(i64 L, i64 R) { return L + random(R - L + 1); }
 
-pair<int, int> gen_pair(int L, int R, booL same = true) {
+pair<int, int> gen_pair(int L, int R, bool same = true) {
     int u, v;
 
     do {

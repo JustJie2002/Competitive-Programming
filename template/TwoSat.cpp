@@ -1,7 +1,7 @@
 
 // Reminder: Add SCC template
 // Credit: neal wu
-struct two_sat {
+struct TwoSat {
     int n = 0;
     vector<vector<int>> adj;
     vector<bool> assignment;

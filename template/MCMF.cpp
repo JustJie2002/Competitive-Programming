@@ -2,7 +2,7 @@
 // Warning: flow_t and cost_t must be able to handle the sums of flows and costs, not just individual edges.
 // Credit: neal wu
 template<typename flow_t, typename cost_t>
-struct MincostFlow {
+struct MCMF {
     const cost_t COST_INF = numeric_limits<cost_t>::max() / 2;
 
     struct edge {
@@ -23,7 +23,7 @@ struct MincostFlow {
     vector<edge*> prev_edge;
     bool too_much_bellman_ford = false;
 
-    MincostFlow(int vertices = -1) {
+    MCMF(int vertices = -1) {
         if (vertices >= 0)
             init(vertices);
     }

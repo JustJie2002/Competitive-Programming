@@ -1,48 +1,103 @@
 /***************************************************************************************************
  * author : Jie Chen (3rd Year CS)
  * school : Rochester Institute of Technology
- * created: 04.28.2024 20:18:17
+ * created: 10.19.2024 17:33:45
 ****************************************************************************************************/
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 
 using namespace std;
 
-#ifdef BROKEN_CODE
-#include <bits/debug.h>
-#else
-#define dbg(...) 10082002
-#define dbp(...) "Need Internship"
-#endif
-
 using i64 = long long;
 
-int main() {
-    int n;
-    scanf("%d", &n);
+using Info = tuple<int, int, char>;
 
-    vector<int> a(n);
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &a[i]);
+void work() {
+    int n, m;
+    cin >> n >> m;
+    int r, b, y;
+    cin >> r >> b >> y;
+    r--, b--, y--;
+
+    vector<vector<Info>> adj(n);
+    for (int e = 0; e < m; e++) {
+        int u, v;
+        char op;
+        cin >> u >> v >> op;
+        u--, v--;
+        adj[u].push_back({v, e, op});
+        adj[v].push_back({u, e, op});
     }
 
-    auto work = [&]() {
-        vector<int> suf(n + 1);
-        for (int i = n - 1; i >= 0; i--) {
-            suf[i] = suf[i + 1] | a[i];
+    vector vis(n, vector(n, vector<bool>(n)));
+    vector<int> used(m);
+    const auto dfs = [&](auto&& self, int r, int b, int y) -> void {
+        if (vis[r][b][y]) {
+            return;
         }
-        int x = a[0];
-        int res = 0;
-        for (int i = 0; i < n - 1; i++) {
-            x &= a[i];
-            res = max(res, abs(x - suf[i + 1]));
-        }
-        return res;
-    };  
+        vis[r][b][y] = true;
 
-    int ans = work();
-    reverse(a.begin(), a.end());
-    ans = max(ans, work());
-    printf("%d\n", ans);
+        for (const auto& [to, e, op] : adj[r]) {
+            if (op == 'R' || op == 'X') {
+                used[e] = true;
+                self(self, to, b, y);
+            }
+            if (op == 'P' && r == b) {
+                used[e] = true;
+                self(self, to, to, y);
+            } 
+            if (op == 'O' && r == y) {
+                used[e] = true;
+                self(self, to, b, to);
+            }
+        }
+
+        for (const auto& [to, e, op] : adj[b]) {
+            if (op == 'B' || op == 'X') {
+                used[e] = true;
+                self(self, r, to, y);
+            }
+            if (op == 'G' && b == y) {
+                used[e] = true;
+                self(self, r, to, to);
+            }
+        }
+
+        for (const auto& [to, e, op] : adj[y]) {
+            if (op == 'Y' || op == 'X') {
+                used[e] = true;
+                self(self, r, b, to);
+            }
+        }
+    };
+
+    dfs(dfs, r, b, y);
+    for (int i = 0; i < n; i++) {
+        for (const auto& [to, e, op] : adj[i]) {
+            if (op == 'X') {
+                continue;
+            }
+            if (!used[e]) {
+                cout << 0 << "\n";
+                return;
+            }
+        }
+    }
+    cout << 1 << "\n";
+}
+/*
+6 6 1 6 1
+1 2
+2 3
+3 4
+4 5
+2 6
+4 6
+*/
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    work();
 }
 
 // ~ Just Jie

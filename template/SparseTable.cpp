@@ -19,7 +19,7 @@ struct SparseTable {
         }
     }
 
-    T query(int from, int to) const {
+    T get(int from, int to) const {
         assert(0 <= from && from <= to && to <= n - 1);
         int lg = 32 - __builtin_clz(to - from + 1) - 1;
         return merge(st[lg][from], st[lg][to - (1 << lg) + 1]);

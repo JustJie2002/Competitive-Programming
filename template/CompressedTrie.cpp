@@ -17,12 +17,12 @@ struct custom_hash {
 };
 
 template<typename K, typename V, typename Hash = custom_hash>
-using HashMap = __gnu_pbds::gp_hash_table<K, V, Hash>;
+using umap = __gnu_pbds::gp_hash_table<K, V, Hash>;
 
 template<char MIN_CHAR = 'a'>
 struct Trie {
     struct Info {
-        HashMap<int, Info*> nex;
+        umap<int, Info*> nex;
         // TODO: attributes
         void update(...) {
             // TODO: add params and code

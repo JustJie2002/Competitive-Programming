@@ -86,16 +86,16 @@ struct HLD {
         return seq[in[u] - dep[u] + d];
     }
     
-    bool isAncester(int u, int v) {
+    bool is_ancestor(int u, int v) {
         return in[u] <= in[v] && in[v] < out[u];
     }
     
-    int rootedParent(int u, int v) {
+    int rooted_parent(int u, int v) {
         swap(u, v);
         if (u == v) {
             return u;
         }
-        if (!isAncester(u, v)) {
+        if (!is_ancestor(u, v)) {
             return parent[u];
         }
         auto it = upper_bound(adj[u].begin(), adj[u].end(), v, [&](int x, int y) {
@@ -108,13 +108,13 @@ struct HLD {
         if (u == v) {
             return n;
         }
-        if (!isAncester(v, u)) {
+        if (!is_ancestor(v, u)) {
             return siz[v];
         }
-        return n - siz[rootedParent(u, v)];
+        return n - siz[rooted_parent(u, v)];
     }
     
-    int rootedLca(int a, int b, int c) {
+    int rooted_lca(int a, int b, int c) {
         return lca(a, b) ^ lca(b, c) ^ lca(c, a);
     }
 };

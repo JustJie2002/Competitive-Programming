@@ -146,7 +146,6 @@ void work(int n, int m) {
     ans = inf;
     dfs3(0);
     printf("%d\n", ans);
-
 }
 
 int main() {

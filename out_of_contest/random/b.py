@@ -1,39 +1,54 @@
-import random
+import numpy as np
+import pandas as pd
 
-def work(p):
-    n = len(p)
-    for i in range(n):
-        p[i] -= 1
+class CheckIndependence:
+    def __init__(self):
+        self.version = 1
 
-    good = [i for i in range(n)]
+    def check_independence(self, distr_table: pd.DataFrame):
+        # Calculate the marginal probabilities
+        px = distr_table.groupby("X")["pr"].sum()
+        py = distr_table.groupby("Y")["pr"].sum()
 
-    def power(p, pw2):
-        if p == good:
-            return 0
-        pw2 += 1
-        nxt = [0] * n
-        for i in range(n):
-            nxt[i] = p[p[i]]
-        if nxt == good:
-            return 1
-        for pw in range(1, pw2):
-            new_nxt = [-1] * n
-            for i in range(n):
-                nex = nxt[i]
-                new_nxt[i] = nxt[nex]
-            if new_nxt == good:
-                return (1 << pw) - 1 + power(nxt, pw - 1)
-            nxt, new_nxt = new_nxt, nxt
-        return -1
+        joint = pd.merge(
+            distr_table,
+            px.rename("px"),
+            on = "X"
+        )
+        joint = pd.merge(
+            joint,
+            py.rename("py"),
+            on="Y"
+        )
 
-    pw2 = 0
-    while (1 << pw2) <= n:
-        pw2 += 1
+        joint["independent"] = np.isclose(joint["pr"], joint["px"] * joint["py"])
 
-    return power(p, pw2)
+        joint["x_mean"] = joint["X"] * joint["pr"]
+        joint["y_mean"] = joint["Y"] * joint["pr"]
+        mux = joint["x_mean"].sum()
+        muy = joint["y_mean"].sum()
+        joint["cov"] = (joint["X"] - mux) * (joint["Y"] - muy) * joint["pr"]
+        covariance = joint["cov"].sum()
 
+        joint["x_var"] = ((joint["X"] - mux) ** 2) * joint["pr"]
+        joint["y_var"] = ((joint["Y"] - muy) ** 2) * joint["pr"]
+        sigma_x = np.sqrt(joint["x_var"].sum())
+        sigma_y = np.sqrt(joint["y_var"].sum())
+        correlation = covariance / (sigma_x * sigma_y)
 
-N = 10 ** 5
-p = [i + 1 for i in range(N)]
-random.shuffle(p)
-print(work(p))
+        return {
+            "are_independent": bool(joint["independent"].all()),
+            "cov": covariance,
+            "corr": correlation
+        }
+
+# Example usage
+distr_table = pd.DataFrame({
+    'X': [0, 0, 1, 1],
+    'Y': [1, 2, 1, 2],
+    'pr': [0.3, 0.25, 0.15, 0.3]
+})
+
+checker = CheckIndependence()
+result = checker.check_independence(distr_table)
+print(result)
