@@ -1,4 +1,0 @@
-# [Score Sum Queries (2 stars)](https://atcoder.jp/contests/typical90/tasks/typical90_j)
-There are N freshmen enrolled at ABC University. There are two classes, and the student with student ID number i is in class Ci. The final exam was returned today, and the student with student number i received a score of Pi. You are given Q questions of the form: j=1,2,...,Q for each. \
-- The total final exam score of the students of class 1, whose student ID numbers are Lj∼Rj, is the sum of the final exam scores of the - students in group 2 with student ID numbers Lj∼Rj
-- Find the sum of the final exam scores for each of these two values.
